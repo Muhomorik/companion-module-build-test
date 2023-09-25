@@ -1,63 +1,43 @@
-const { InstanceBase, Regex, runEntrypoint, InstanceStatus } = require('@companion-module/base')
+const {InstanceBase, Regex, runEntrypoint, InstanceStatus} = require('@companion-module/base')
 const UpgradeScripts = require('./upgrades')
-const UpdateActions = require('./actions')
-const UpdateFeedbacks = require('./feedbacks')
-const UpdateVariableDefinitions = require('./variables')
+require('./presets');
 
 class ModuleInstance extends InstanceBase {
-	constructor(internal) {
-		super(internal)
-	}
+  constructor(internal) {
+    super(internal)
+  }
 
-	async init(config) {
-		this.config = config
+  isInitialized = false
 
-		this.updateStatus(InstanceStatus.Ok)
+  async init(config) {
+    this.config = config
 
-		this.updateActions() // export actions
-		this.updateFeedbacks() // export feedbacks
-		this.updateVariableDefinitions() // export variable definitions
-	}
-	// When module gets deleted
-	async destroy() {
-		this.log('debug', 'destroy')
-	}
+    this.log('debug', `Start logging,`)
 
-	async configUpdated(config) {
-		this.config = config
-	}
+    this.updateStatus(InstanceStatus.Ok)
+    this.isInitialized = true
 
-	// Return config fields for web config
-	getConfigFields() {
-		return [
-			{
-				type: 'textinput',
-				id: 'host',
-				label: 'Target IP',
-				width: 8,
-				regex: Regex.IP,
-			},
-			{
-				type: 'textinput',
-				id: 'port',
-				label: 'Target Port',
-				width: 4,
-				regex: Regex.PORT,
-			},
-		]
-	}
+    this.log('debug', `Done init.`)
 
-	updateActions() {
-		UpdateActions(this)
-	}
+  }
 
-	updateFeedbacks() {
-		UpdateFeedbacks(this)
-	}
+  // When module gets deleted
+  async destroy() {
+    this.log('debug', 'destroy')
+  }
 
-	updateVariableDefinitions() {
-		UpdateVariableDefinitions(this)
-	}
+  async configUpdated(config) {
+    this.config = config
+  }
+
+  async destroy() {
+    this.isInitialized = false
+  }
+
+  // Return config fields for web config
+  getConfigFields() {
+    return []
+  }
 }
 
 runEntrypoint(ModuleInstance, UpgradeScripts)

@@ -1,20 +1,33 @@
 {
-	"name": "your-module-name",
-	"version": "0.1.0",
-	"main": "main.js",
-	"scripts": {
-		"format": "prettier -w ."
-	},
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/bitfocus/companion-module-your-module-name.git"
-	},
-	"dependencies": {
-		"@companion-module/base": "~1.4.0"
-	},
-	"devDependencies": {
-		"@companion-module/tools": "^1.2.0"
-	},
-	"prettier": "@companion-module/tools/.prettierrc.json"
+  "name": "companion-module-build-test",
+  "version": "2.0.2",
+  "main": "main.js",
+  "scripts": {
+    "format": "prettier -w .",
+    "lint:raw": "eslint --ext .ts --ext .js --ignore-pattern dist --ignore-pattern pkg",
+    "lint": "yarn lint:raw .",
+    "dist": "yarn companion-module-build",
+    "dist:dev": "yarn companion-module-build --dev"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "@companion-module/base": "^1.4.0"
+  },
+  "devDependencies": {
+    "@companion-module/tools": "^1.4.1",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "prettier": "@companion-module/tools/.prettierrc.json",
+  "description": "See [HELP.md](./HELP.md) and [LICENSE](./LICENSE)",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "author": "",
+  "packageManager": "yarn@3.6.3"
 }
